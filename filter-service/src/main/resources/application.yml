@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      database: filterdb-t2
+      uri: mongodb://localhost:27017
+      username: turkcell
+      password: 12345
