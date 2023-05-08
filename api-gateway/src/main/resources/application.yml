@@ -1,12 +1,12 @@
 spring:
   application:
-    name: filter-service
-  data:
-    mongodb:
-      database: filterdb-t2
-      uri: mongodb://localhost:27017
-      username: turkcell
-      password: 12345
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 eureka:
   client:
     fetch-registry: true
@@ -17,4 +17,4 @@ eureka:
     instance-id: ${spring.application.name}:${instanceId:${random.value}}
     prefer-ip-address: true
 server:
-  port: 0
+  port: 9010
