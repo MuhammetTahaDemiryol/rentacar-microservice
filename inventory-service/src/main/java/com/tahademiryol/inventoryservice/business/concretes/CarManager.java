@@ -1,5 +1,7 @@
 package com.tahademiryol.inventoryservice.business.concretes;
 
+import com.tahademiryol.commonpackage.events.CarCreatedEvent;
+import com.tahademiryol.commonpackage.events.CarDeletedEvent;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
 import com.tahademiryol.inventoryservice.business.abstracts.CarService;
 import com.tahademiryol.inventoryservice.business.dto.requests.create.CreateCarRequest;
@@ -8,6 +10,7 @@ import com.tahademiryol.inventoryservice.business.dto.responses.create.CreateCar
 import com.tahademiryol.inventoryservice.business.dto.responses.get.GetAllCarsResponse;
 import com.tahademiryol.inventoryservice.business.dto.responses.get.GetCarResponse;
 import com.tahademiryol.inventoryservice.business.dto.responses.update.UpdateCarResponse;
+import com.tahademiryol.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.tahademiryol.inventoryservice.business.rules.CarBusinessRules;
 import com.tahademiryol.inventoryservice.entities.Car;
 import com.tahademiryol.inventoryservice.entities.enums.State;
@@ -24,6 +27,7 @@ public class CarManager implements CarService {
     private final CarRepository repository;
     private final ModelMapperService mapper;
     private final CarBusinessRules rules;
+    private final InventoryProducer producer;
 
     @Override
     public List<GetAllCarsResponse> getAll() {
@@ -46,8 +50,9 @@ public class CarManager implements CarService {
         var car = mapper.forRequest().map(request, Car.class);
         car.setId(UUID.randomUUID());
         car.setState(State.Available);
-        repository.save(car);
-        return mapper.forResponse().map(car, CreateCarResponse.class);
+        var createdCar = repository.save(car);
+        sendKafkaCarCreatedEvent(createdCar);
+        return mapper.forResponse().map(createdCar, CreateCarResponse.class);
     }
 
     @Override
@@ -63,6 +68,18 @@ public class CarManager implements CarService {
     public void delete(UUID id) {
         rules.checkIfCarExists(id);
         repository.deleteById(id);
+        sendKafkaCarDeletedEvent(id);
 
     }
+
+    // send data to filter-service via kafka and filter-service will record it to mongoDB
+    public void sendKafkaCarCreatedEvent(Car createdCar) {
+        var event = mapper.forResponse().map(createdCar, CarCreatedEvent.class);
+        producer.sendMessage(event);
+    }
+
+    private void sendKafkaCarDeletedEvent(UUID id) {
+        producer.sendMessage(new CarDeletedEvent(id));
+    }
+
 }

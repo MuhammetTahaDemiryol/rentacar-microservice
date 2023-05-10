@@ -1,4 +1,4 @@
-package com.tahademiryol.inventoryservice.business.dto.responses.get;
+package com.tahademiryol.commonpackage.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllCarsResponse {
+public class CarCreatedEvent {
     private UUID carId;
     private UUID modelId;
     private UUID brandId;
@@ -21,4 +21,5 @@ public class GetAllCarsResponse {
     private double dailyPrice;
     private String modelName;
     private String brandName;
+
 }

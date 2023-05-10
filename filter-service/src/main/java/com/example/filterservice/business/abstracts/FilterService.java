@@ -10,12 +10,14 @@ import java.util.UUID;
 public interface FilterService {
     List<GetAllFiltersResponses> getAll();
 
-    GetFilterResponse getById(UUID id);
+    GetFilterResponse getById(String id);
 
     //! Will not be used outside the service layer
     void add(Filter filter);
 
-    void delete(UUID id);
+    void delete(String id);
+
+    void deleteByCarId(UUID id);
 
     void deleteAllByBrandId(UUID brandId); //! Bulk delete
 
