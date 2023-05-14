@@ -1,4 +1,4 @@
-package com.example.filterservice.configuration;
+package com.tahademiryol.commonpackage.configuration.mappers;
 
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperManager;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
@@ -17,5 +17,4 @@ public class ModelMapperConfig {
     public ModelMapperService getModelMapperService(ModelMapper mapper) {
         return new ModelMapperManager(mapper);
     }
-
 }
