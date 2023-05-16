@@ -11,4 +11,8 @@ public class Paths {
         public static final String ServiceBasePackage = "com.example.filterservice";
     }
 
+    public static class Rental {
+        public static final String ServiceBasePackage = "com.example.rantalservice";
+    }
+
 }
