@@ -1,4 +1,4 @@
-package com.tahademiryol.commonpackage.events;
+package com.tahademiryol.commonpackage.events.inventory;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

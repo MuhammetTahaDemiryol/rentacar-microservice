@@ -3,9 +3,9 @@ package com.example.filterservice.business.kafka.consumer;
 
 import com.example.filterservice.business.abstracts.FilterService;
 import com.example.filterservice.entities.Filter;
-import com.tahademiryol.commonpackage.events.BrandDeletedEvent;
-import com.tahademiryol.commonpackage.events.CarCreatedEvent;
-import com.tahademiryol.commonpackage.events.CarDeletedEvent;
+import com.tahademiryol.commonpackage.events.inventory.BrandDeletedEvent;
+import com.tahademiryol.commonpackage.events.inventory.CarCreatedEvent;
+import com.tahademiryol.commonpackage.events.inventory.CarDeletedEvent;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

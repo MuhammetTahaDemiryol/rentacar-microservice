@@ -1,7 +1,7 @@
 package com.tahademiryol.inventoryservice.business.concretes;
 
-import com.tahademiryol.commonpackage.events.CarCreatedEvent;
-import com.tahademiryol.commonpackage.events.CarDeletedEvent;
+import com.tahademiryol.commonpackage.events.inventory.CarCreatedEvent;
+import com.tahademiryol.commonpackage.events.inventory.CarDeletedEvent;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
 import com.tahademiryol.inventoryservice.business.abstracts.CarService;
 import com.tahademiryol.inventoryservice.business.dto.requests.create.CreateCarRequest;
@@ -70,6 +70,17 @@ public class CarManager implements CarService {
         repository.deleteById(id);
         sendKafkaCarDeletedEvent(id);
 
+    }
+
+    @Override
+    public void checkIfCarIsAvailable(UUID id) {
+        rules.checkIfCarExists(id);
+        rules.checkCarAvailability(id);
+    }
+
+    @Override
+    public void changeStateByCarId(State state, UUID id) {
+        repository.changeStateByCarId(state, id);
     }
 
     // send data to filter-service via kafka and filter-service will record it to mongoDB

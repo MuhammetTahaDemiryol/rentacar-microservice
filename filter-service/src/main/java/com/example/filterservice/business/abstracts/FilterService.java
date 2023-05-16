@@ -22,4 +22,6 @@ public interface FilterService {
     void deleteAllByBrandId(UUID brandId); //! Bulk delete
 
     void deleteAllByModelId(UUID modelId); //! Bulk delete
+
+    Filter getByCarId(UUID carId);
 }

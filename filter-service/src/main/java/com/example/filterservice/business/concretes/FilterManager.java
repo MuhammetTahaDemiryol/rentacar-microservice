@@ -58,4 +58,9 @@ public class FilterManager implements FilterService {
     public void deleteAllByModelId(UUID modelId) {
 
     }
+
+    @Override
+    public Filter getByCarId(UUID carId) {
+        return repository.findByCarId(carId);
+    }
 }

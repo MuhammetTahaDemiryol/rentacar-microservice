@@ -47,4 +47,9 @@ public class CarsController {
     public void delete(@PathVariable UUID id) {
         service.delete(id);
     }
+
+    @GetMapping("/check-if-car-is-available/{id}")
+    public void checkIfCarIsAvailable(@PathVariable UUID id) {
+        service.checkIfCarIsAvailable(id);
+    }
 }
