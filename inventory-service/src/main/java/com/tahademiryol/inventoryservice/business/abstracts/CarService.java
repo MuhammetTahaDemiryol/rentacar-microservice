@@ -1,5 +1,6 @@
 package com.tahademiryol.inventoryservice.business.abstracts;
 
+import com.tahademiryol.commonpackage.utils.dto.ClientResponse;
 import com.tahademiryol.inventoryservice.business.dto.requests.create.CreateCarRequest;
 import com.tahademiryol.inventoryservice.business.dto.requests.update.UpdateCarRequest;
 import com.tahademiryol.inventoryservice.business.dto.responses.create.CreateCarResponse;
@@ -22,7 +23,7 @@ public interface CarService {
 
     void delete(UUID id);
 
-    void checkIfCarIsAvailable(UUID id);
+    ClientResponse checkIfCarIsAvailable(UUID id);
 
     void changeStateByCarId(State state, UUID id);
 }

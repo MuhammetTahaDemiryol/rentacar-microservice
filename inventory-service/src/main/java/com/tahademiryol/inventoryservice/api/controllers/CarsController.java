@@ -1,5 +1,6 @@
 package com.tahademiryol.inventoryservice.api.controllers;
 
+import com.tahademiryol.commonpackage.utils.dto.ClientResponse;
 import com.tahademiryol.inventoryservice.business.abstracts.CarService;
 import com.tahademiryol.inventoryservice.business.dto.requests.create.CreateCarRequest;
 import com.tahademiryol.inventoryservice.business.dto.requests.update.UpdateCarRequest;
@@ -49,7 +50,7 @@ public class CarsController {
     }
 
     @GetMapping("/check-if-car-is-available/{id}")
-    public void checkIfCarIsAvailable(@PathVariable UUID id) {
-        service.checkIfCarIsAvailable(id);
+    public ClientResponse checkIfCarIsAvailable(@PathVariable UUID id) {
+        return service.checkIfCarIsAvailable(id);
     }
 }

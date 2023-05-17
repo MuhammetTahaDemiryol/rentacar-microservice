@@ -1,6 +1,7 @@
 package com.tahademiryol.inventoryservice.business.concretes;
 
 import com.tahademiryol.commonpackage.events.inventory.BrandDeletedEvent;
+import com.tahademiryol.commonpackage.kafka.producer.KafkaProducer;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
 import com.tahademiryol.inventoryservice.business.abstracts.BrandService;
 import com.tahademiryol.inventoryservice.business.dto.requests.create.CreateBrandRequest;
@@ -9,7 +10,6 @@ import com.tahademiryol.inventoryservice.business.dto.responses.create.CreateBra
 import com.tahademiryol.inventoryservice.business.dto.responses.get.GetAllBrandsResponse;
 import com.tahademiryol.inventoryservice.business.dto.responses.get.GetBrandResponse;
 import com.tahademiryol.inventoryservice.business.dto.responses.update.UpdateBrandResponse;
-import com.tahademiryol.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.tahademiryol.inventoryservice.business.rules.BrandBusinessRules;
 import com.tahademiryol.inventoryservice.entities.Brand;
 import com.tahademiryol.inventoryservice.repository.BrandRepository;
@@ -25,7 +25,7 @@ public class BrandManager implements BrandService {
     private final BrandRepository repository;
     private final ModelMapperService mapper;
     private final BrandBusinessRules rules;
-    private final InventoryProducer producer;
+    private final KafkaProducer producer;
 
     @Override
     public List<GetAllBrandsResponse> getAll() {
@@ -64,6 +64,6 @@ public class BrandManager implements BrandService {
     public void delete(UUID id) {
         rules.checkIfBrandExists(id);
         repository.deleteById(id);
-        producer.sendBrandDeleteMessage(new BrandDeletedEvent(id));
+        producer.sendMessage(new BrandDeletedEvent(id), "brand-deleted");
     }
 }

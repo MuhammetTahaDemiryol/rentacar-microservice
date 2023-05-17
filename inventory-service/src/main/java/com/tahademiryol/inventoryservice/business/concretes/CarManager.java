@@ -2,6 +2,9 @@ package com.tahademiryol.inventoryservice.business.concretes;
 
 import com.tahademiryol.commonpackage.events.inventory.CarCreatedEvent;
 import com.tahademiryol.commonpackage.events.inventory.CarDeletedEvent;
+import com.tahademiryol.commonpackage.kafka.producer.KafkaProducer;
+import com.tahademiryol.commonpackage.utils.dto.ClientResponse;
+import com.tahademiryol.commonpackage.utils.exceptions.BusinessException;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
 import com.tahademiryol.inventoryservice.business.abstracts.CarService;
 import com.tahademiryol.inventoryservice.business.dto.requests.create.CreateCarRequest;
@@ -10,7 +13,6 @@ import com.tahademiryol.inventoryservice.business.dto.responses.create.CreateCar
 import com.tahademiryol.inventoryservice.business.dto.responses.get.GetAllCarsResponse;
 import com.tahademiryol.inventoryservice.business.dto.responses.get.GetCarResponse;
 import com.tahademiryol.inventoryservice.business.dto.responses.update.UpdateCarResponse;
-import com.tahademiryol.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.tahademiryol.inventoryservice.business.rules.CarBusinessRules;
 import com.tahademiryol.inventoryservice.entities.Car;
 import com.tahademiryol.inventoryservice.entities.enums.State;
@@ -27,7 +29,7 @@ public class CarManager implements CarService {
     private final CarRepository repository;
     private final ModelMapperService mapper;
     private final CarBusinessRules rules;
-    private final InventoryProducer producer;
+    private final KafkaProducer producer;
 
     @Override
     public List<GetAllCarsResponse> getAll() {
@@ -73,10 +75,24 @@ public class CarManager implements CarService {
     }
 
     @Override
-    public void checkIfCarIsAvailable(UUID id) {
-        rules.checkIfCarExists(id);
-        rules.checkCarAvailability(id);
+    public ClientResponse checkIfCarIsAvailable(UUID id) {
+        var response = new ClientResponse();
+        validateCarAvailability(id, response);
+        return response;
+
     }
+
+    private void validateCarAvailability(UUID id, ClientResponse response) {
+        try {
+            rules.checkIfCarExists(id);
+            rules.checkCarAvailability(id);
+            response.setSuccess(true);
+        } catch (BusinessException exception) {
+            response.setSuccess(false);
+            response.setMessage(exception.getMessage());
+        }
+    }
+
 
     @Override
     public void changeStateByCarId(State state, UUID id) {
@@ -86,11 +102,11 @@ public class CarManager implements CarService {
     // send data to filter-service via kafka and filter-service will record it to mongoDB
     public void sendKafkaCarCreatedEvent(Car createdCar) {
         var event = mapper.forResponse().map(createdCar, CarCreatedEvent.class);
-        producer.sendMessage(event);
+        producer.sendMessage(event, "car-created");
     }
 
     private void sendKafkaCarDeletedEvent(UUID id) {
-        producer.sendMessage(new CarDeletedEvent(id));
+        producer.sendMessage(new CarDeletedEvent(id), "car-deleted");
     }
 
 }

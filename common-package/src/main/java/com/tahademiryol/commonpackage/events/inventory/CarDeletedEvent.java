@@ -1,5 +1,6 @@
 package com.tahademiryol.commonpackage.events.inventory;
 
+import com.tahademiryol.commonpackage.events.rental.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,6 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarDeletedEvent {
+public class CarDeletedEvent implements Event {
     private UUID carId;
 }

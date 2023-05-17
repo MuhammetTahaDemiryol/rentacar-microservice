@@ -1,8 +1,8 @@
 package com.tahademiryol.rentalservice.business.concretes;
 
 import com.tahademiryol.commonpackage.events.rental.RentalCreatedEvent;
+import com.tahademiryol.commonpackage.kafka.producer.KafkaProducer;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
-import com.tahademiryol.rentalservice.api.clients.CarClient;
 import com.tahademiryol.rentalservice.business.abstracts.RentalService;
 import com.tahademiryol.rentalservice.business.dto.requests.create.CreateRentalRequest;
 import com.tahademiryol.rentalservice.business.dto.requests.update.UpdateRentalRequest;
@@ -10,7 +10,6 @@ import com.tahademiryol.rentalservice.business.dto.responses.create.CreateRental
 import com.tahademiryol.rentalservice.business.dto.responses.get.GetAllRentalsResponse;
 import com.tahademiryol.rentalservice.business.dto.responses.get.GetRentalResponse;
 import com.tahademiryol.rentalservice.business.dto.responses.update.UpdateRentalResponse;
-import com.tahademiryol.rentalservice.business.kafka.producer.RentalProducer;
 import com.tahademiryol.rentalservice.business.rules.RentalBusinessRules;
 import com.tahademiryol.rentalservice.entities.Rental;
 import com.tahademiryol.rentalservice.repository.RentalRepository;
@@ -27,8 +26,7 @@ public class RentalManager implements RentalService {
     private final RentalRepository repository;
     private final ModelMapperService mapper;
     private final RentalBusinessRules rules;
-    private final CarClient carClient;
-    private final RentalProducer producer;
+    private final KafkaProducer producer;
 
     @Override
     public List<GetAllRentalsResponse> getAll() {
@@ -48,7 +46,7 @@ public class RentalManager implements RentalService {
 
     @Override
     public CreateRentalResponse add(CreateRentalRequest request) {
-        carClient.checkIfCarIsAvailable(request.getCarId());
+        rules.ensureCarIsAvailable(request.getCarId());
         var rental = mapper.forRequest().map(request, Rental.class);
         rental.setId(UUID.randomUUID());
         rental.setTotalPrice(getTotalPrice(rental));
@@ -59,7 +57,7 @@ public class RentalManager implements RentalService {
     }
 
     private void sendKafkaRentalCreatedEvent(UUID id) {
-        producer.sendMessage(new RentalCreatedEvent(id));
+        producer.sendMessage(new RentalCreatedEvent(id), "rental-created");
     }
 
     @Override
