@@ -1,5 +1,6 @@
 package com.tahademiryol.inventoryservice.business.rules;
 
+import com.tahademiryol.commonpackage.utils.exceptions.BusinessException;
 import com.tahademiryol.inventoryservice.repository.ModelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,7 @@ public class ModelBusinessRules {
 
     public void checkIfModelExists(UUID id) {
         if (!repository.existsById(id)) {
-            //TODO: BusinessException
-            throw new RuntimeException("Model_NOT_EXISTS");
+            throw new BusinessException("Model_NOT_EXISTS");
         }
     }
 }

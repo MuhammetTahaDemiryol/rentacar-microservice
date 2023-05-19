@@ -1,6 +1,7 @@
 package com.tahademiryol.rentalservice.business.concretes;
 
 import com.tahademiryol.commonpackage.events.rental.RentalCreatedEvent;
+import com.tahademiryol.commonpackage.events.rental.RentalDeletedEvent;
 import com.tahademiryol.commonpackage.kafka.producer.KafkaProducer;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
 import com.tahademiryol.rentalservice.business.abstracts.RentalService;
@@ -56,10 +57,6 @@ public class RentalManager implements RentalService {
         return mapper.forResponse().map(rental, CreateRentalResponse.class);
     }
 
-    private void sendKafkaRentalCreatedEvent(UUID id) {
-        producer.sendMessage(new RentalCreatedEvent(id), "rental-created");
-    }
-
     @Override
     public UpdateRentalResponse update(UUID id, UpdateRentalRequest request) {
         rules.checkIfRentalExists(id);
@@ -72,11 +69,21 @@ public class RentalManager implements RentalService {
     @Override
     public void delete(UUID id) {
         rules.checkIfRentalExists(id);
+        sendKafkaRentalDeletedEvent(id);
         repository.deleteById(id);
 
     }
 
     private double getTotalPrice(Rental rental) {
         return rental.getDailyPrice() * rental.getRentedForDays();
+    }
+
+    private void sendKafkaRentalCreatedEvent(UUID id) {
+        producer.sendMessage(new RentalCreatedEvent(id), "rental-created");
+    }
+
+    private void sendKafkaRentalDeletedEvent(UUID id) {
+        var carId = repository.findById(id).orElseThrow().getCarId();
+        producer.sendMessage(new RentalDeletedEvent(carId), "rental-deleted");
     }
 }

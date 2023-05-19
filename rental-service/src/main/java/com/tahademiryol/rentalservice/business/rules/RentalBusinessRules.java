@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-
 @Service
 @AllArgsConstructor
 public class RentalBusinessRules {
@@ -17,8 +16,7 @@ public class RentalBusinessRules {
 
     public void checkIfRentalExists(UUID id) {
         if (!repository.existsById(id)) {
-            //TODO: BusinessException
-            throw new BusinessException("CAR_NOT_EXISTS");
+            throw new BusinessException("RENTAL_NOT_EXISTS");
         }
     }
 
