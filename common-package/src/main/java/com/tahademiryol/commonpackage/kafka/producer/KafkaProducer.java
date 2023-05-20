@@ -1,6 +1,6 @@
 package com.tahademiryol.commonpackage.kafka.producer;
 
-import com.tahademiryol.commonpackage.events.rental.Event;
+import com.tahademiryol.commonpackage.events.Event;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;

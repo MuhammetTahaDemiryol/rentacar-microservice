@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: maintenance-service
+  datasource:
+    username: postgres
+    password: '12345'
+    url: jdbc:postgresql://localhost:5432/maintenancedb-dev
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  kafka:
+    producer:
+      bootstrap-servers: http://localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: true
+
+resilience4j:
+  retry:
+    instances:
+      retry-maintenance:
+        max-attempts: 5
+        wait-duration: 15s
+server:
+  port: 0

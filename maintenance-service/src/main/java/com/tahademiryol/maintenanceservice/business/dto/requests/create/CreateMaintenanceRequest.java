@@ -1,6 +1,5 @@
-package com.tahademiryol.commonpackage.events.inventory;
+package com.tahademiryol.maintenanceservice.business.dto.requests.create;
 
-import com.tahademiryol.commonpackage.events.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,10 +7,21 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarDeletedEvent implements Event {
+public class CreateMaintenanceRequest {
     private UUID carId;
+    private String information;
 }
+
+
+
+
+
+
+
+
+
+

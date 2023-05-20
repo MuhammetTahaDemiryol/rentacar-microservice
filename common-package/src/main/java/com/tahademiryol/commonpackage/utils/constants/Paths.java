@@ -15,4 +15,8 @@ public class Paths {
         public static final String ServiceBasePackage = "com.tahademiryol.rentalservice";
     }
 
+    public static class Maintenance {
+        public static final String ServiceBasePackage = "com.tahademiryol.maintenanceservice";
+    }
+
 }
