@@ -19,7 +19,7 @@ public interface MaintenanceService {
 
     UpdateMaintenanceResponse update(UUID id, UpdateMaintenanceRequest request);
 
-    GetMaintenanceResponse complete(UUID id);
+    UpdateMaintenanceResponse complete(UUID id);
 
     void delete(UUID id);
 }

@@ -48,8 +48,8 @@ public class MaintenancesController {
         service.delete(id);
     }
 
-    @GetMapping("/check-if-Maintenance-is-available/{id}")
-    public GetMaintenanceResponse complete(@PathVariable UUID id) {
+    @PutMapping("/returnMaintenance/{id}")
+    public UpdateMaintenanceResponse complete(@PathVariable UUID id) {
         return service.complete(id);
     }
 }
