@@ -3,6 +3,7 @@ package com.tahademiryol.rentalservice.business.concretes;
 import com.tahademiryol.commonpackage.events.rental.RentalCreatedEvent;
 import com.tahademiryol.commonpackage.events.rental.RentalDeletedEvent;
 import com.tahademiryol.commonpackage.kafka.producer.KafkaProducer;
+import com.tahademiryol.commonpackage.utils.dto.CreateRentalPaymentRequest;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
 import com.tahademiryol.rentalservice.business.abstracts.RentalService;
 import com.tahademiryol.rentalservice.business.dto.requests.create.CreateRentalRequest;
@@ -52,6 +53,13 @@ public class RentalManager implements RentalService {
         rental.setId(UUID.randomUUID());
         rental.setTotalPrice(getTotalPrice(rental));
         rental.setRentedAt(LocalDate.now());
+
+        CreateRentalPaymentRequest rentalPaymentRequest = new CreateRentalPaymentRequest();
+        mapper.forRequest().map(request.getPaymentRequest(), rentalPaymentRequest);
+        rentalPaymentRequest.setPrice(rental.getTotalPrice());
+
+        rules.ensurePaymentIsAvailable(rentalPaymentRequest);
+
         repository.save(rental);
         sendKafkaRentalCreatedEvent(request.getCarId());
         return mapper.forResponse().map(rental, CreateRentalResponse.class);
