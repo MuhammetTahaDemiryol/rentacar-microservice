@@ -1,29 +1,10 @@
 spring:
   application:
     name: filter-service
-  data:
-    mongodb:
-      database: filterdb-t2
-      uri: mongodb://localhost:27017
-  kafka:
-    consumer:
-      auto-offset-reset: earliest
-      bootstrap-servers: http://localhost:9092
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      properties:
-        spring:
-          json:
-            trusted:
-              packages: "*"
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    instance-id: ${spring.application.name}:${random.value}
-    prefer-ip-address: true
-server:
-  port: 0
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      profile: dev
+
+

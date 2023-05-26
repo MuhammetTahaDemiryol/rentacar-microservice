@@ -54,6 +54,7 @@ public class RentalManager implements RentalService {
         rental.setTotalPrice(getTotalPrice(rental));
         rental.setRentedAt(LocalDate.now());
 
+        // !TODO: Payment method create
         CreateRentalPaymentRequest rentalPaymentRequest = new CreateRentalPaymentRequest();
         mapper.forRequest().map(request.getPaymentRequest(), rentalPaymentRequest);
         rentalPaymentRequest.setPrice(rental.getTotalPrice());

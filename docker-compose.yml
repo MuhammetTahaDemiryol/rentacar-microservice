@@ -16,6 +16,18 @@ services:
     volumes:
       - mongodb_data:/data/db/
 
+  inventorydb:
+    container_name: inventorydb
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_TCP_PORT: 3306
+      VIRTUAL_PORT: 3306
+    volumes:
+      - inventorydb:/data/db/
 volumes:
   kafka_data:
   mongodb_data:
+  inventorydb:

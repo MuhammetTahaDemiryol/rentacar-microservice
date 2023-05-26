@@ -1,33 +1,9 @@
 spring:
   application:
     name: payment-service
-  datasource:
-    username: postgres
-    password: '12345'
-    url: jdbc:postgresql://localhost:5432/paymentdb-dev
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
-  kafka:
-    producer:
-      bootstrap-servers: http://localhost:9092
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-  cloud:
-    openfeign:
-      circuitbreaker:
-        enabled: true
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    instance-id: ${spring.application.name}:${random.value}
-    prefer-ip-address: true
-server:
-  port: 0
+  config:
+    import: optional:configserver:http://localhost:8888
+  profiles:
+    active: dev
+
+
