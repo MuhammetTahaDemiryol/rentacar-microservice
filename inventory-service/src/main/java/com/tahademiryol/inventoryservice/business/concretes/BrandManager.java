@@ -1,7 +1,7 @@
 package com.tahademiryol.inventoryservice.business.concretes;
 
 import com.tahademiryol.commonpackage.events.inventory.BrandDeletedEvent;
-import com.tahademiryol.commonpackage.kafka.producer.KafkaProducer;
+import com.tahademiryol.commonpackage.utils.kafka.producer.KafkaProducer;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
 import com.tahademiryol.inventoryservice.business.abstracts.BrandService;
 import com.tahademiryol.inventoryservice.business.dto.requests.create.CreateBrandRequest;

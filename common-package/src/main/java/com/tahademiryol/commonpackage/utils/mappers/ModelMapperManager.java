@@ -7,7 +7,7 @@ import org.modelmapper.convention.MatchingStrategies;
 
 @AllArgsConstructor
 public class ModelMapperManager implements ModelMapperService {
-    private ModelMapper mapper;
+    private final ModelMapper mapper;
 
     @Override
     public ModelMapper forResponse() {

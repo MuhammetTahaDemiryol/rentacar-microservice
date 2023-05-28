@@ -16,11 +16,11 @@ public class CarCreatedEvent implements Event {
     private UUID carId;
     private UUID modelId;
     private UUID brandId;
-    private int modelYear;
-    private String plate;
-    private String state;
-    private double dailyPrice;
     private String modelName;
     private String brandName;
+    private String plate;
+    private int modelYear;
+    private double dailyPrice;
+    private String state;
 
 }

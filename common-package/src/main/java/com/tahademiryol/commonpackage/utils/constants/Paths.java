@@ -23,4 +23,8 @@ public class Paths {
         public static final String ServiceBasePackage = "com.tahademiryol.paymentservice";
     }
 
+    public static class Invoice {
+        public static final String ServiceBasePackage = "com.tahademiryol.invoiceservice";
+    }
+
 }

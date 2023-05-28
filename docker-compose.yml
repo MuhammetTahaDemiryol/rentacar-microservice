@@ -15,19 +15,16 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db/
-
-  inventorydb:
-    container_name: inventorydb
-    image: mysql
+  invoicedb:
+    container_name: turkcell2-invoicedb
+    image: mongo
     ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_TCP_PORT: 3306
-      VIRTUAL_PORT: 3306
+      - "27018:27017"
     volumes:
-      - inventorydb:/data/db/
+      - invoicedb_data:/data/db/
+
+
 volumes:
   kafka_data:
   mongodb_data:
-  inventorydb:
+  invoicedb_data:

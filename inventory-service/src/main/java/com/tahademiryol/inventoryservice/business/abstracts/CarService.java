@@ -1,11 +1,11 @@
 package com.tahademiryol.inventoryservice.business.abstracts;
 
 import com.tahademiryol.commonpackage.utils.dto.ClientResponse;
+import com.tahademiryol.commonpackage.utils.dto.GetCarResponse;
 import com.tahademiryol.inventoryservice.business.dto.requests.create.CreateCarRequest;
 import com.tahademiryol.inventoryservice.business.dto.requests.update.UpdateCarRequest;
 import com.tahademiryol.inventoryservice.business.dto.responses.create.CreateCarResponse;
 import com.tahademiryol.inventoryservice.business.dto.responses.get.GetAllCarsResponse;
-import com.tahademiryol.inventoryservice.business.dto.responses.get.GetCarResponse;
 import com.tahademiryol.inventoryservice.business.dto.responses.update.UpdateCarResponse;
 import com.tahademiryol.inventoryservice.entities.enums.State;
 

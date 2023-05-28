@@ -3,7 +3,7 @@ package com.tahademiryol.maintenanceservice.business.concretes;
 import com.tahademiryol.commonpackage.events.maintenance.MaintenanceCompletedEvent;
 import com.tahademiryol.commonpackage.events.maintenance.MaintenanceCreatedEvent;
 import com.tahademiryol.commonpackage.events.maintenance.MaintenanceDeletedEvent;
-import com.tahademiryol.commonpackage.kafka.producer.KafkaProducer;
+import com.tahademiryol.commonpackage.utils.kafka.producer.KafkaProducer;
 import com.tahademiryol.commonpackage.utils.mappers.ModelMapperService;
 import com.tahademiryol.maintenanceservice.api.clients.CarClient;
 import com.tahademiryol.maintenanceservice.business.abstracts.MaintenanceService;

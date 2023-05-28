@@ -1,4 +1,4 @@
-package com.tahademiryol.commonpackage.kafka.producer;
+package com.tahademiryol.commonpackage.utils.kafka.producer;
 
 import com.tahademiryol.commonpackage.events.Event;
 import lombok.RequiredArgsConstructor;
