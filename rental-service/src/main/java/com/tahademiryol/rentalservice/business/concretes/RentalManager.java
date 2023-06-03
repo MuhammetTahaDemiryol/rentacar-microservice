@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+
 @Service
 @AllArgsConstructor
 public class RentalManager implements RentalService {
