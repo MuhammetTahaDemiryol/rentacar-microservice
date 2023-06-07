@@ -1,0 +1,34 @@
+global:
+  scrape_interval: 15s # Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+
+rule_files:
+# - "first_rules.yml"
+# - "second_rules.yml"
+
+scrape_configs:
+  - job_name: 'filter-service'
+    scrape_interval: 2s
+    metrics_path: '/filter-service/actuator/prometheus'
+    static_configs:
+      - targets: [ 'localhost:9010' ]
+  - job_name: 'inventory-service'
+    scrape_interval: 2s
+    metrics_path: '/inventory-service/actuator/prometheus'
+    static_configs:
+      - targets: [ 'localhost:9010' ]
+  - job_name: 'invoice-service'
+    scrape_interval: 2s
+    metrics_path: '/invoice-service/actuator/prometheus'
+    static_configs:
+      - targets: [ 'localhost:9010' ]
+  - job_name: 'payment-service'
+    scrape_interval: 2s
+    metrics_path: '/payment-service/actuator/prometheus'
+    static_configs:
+      - targets: [ 'localhost:9010' ]
+  - job_name: 'rental-service'
+    scrape_interval: 2s
+    metrics_path: '/rental-service/actuator/prometheus'
+    static_configs:
+      - targets: [ 'localhost:9010' ]

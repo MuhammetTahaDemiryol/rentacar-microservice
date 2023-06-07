@@ -82,7 +82,9 @@ public class MaintenanceManager implements MaintenanceService {
         rules.checkIfMaintenanceExists(id);
         rules.checkIfMaintenanceAvailable(id);
         var maintenance = repository.findById(id).orElseThrow();
+        maintenance.setCompleted(true);
         maintenance.setEndDate(LocalDateTime.now());
+        repository.save(maintenance);
         sendKafkaMaintenanceCompletedEvent(maintenance.getCarId());
         return mapper.forResponse().map(maintenance, UpdateMaintenanceResponse.class);
     }

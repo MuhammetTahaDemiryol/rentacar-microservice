@@ -1,9 +1,9 @@
 spring:
   application:
     name: api-gateway
-    cloud:
-      config:
-        profile: dev
+  cloud:
+    config:
+      profile: dev
   config:
     import: optional:configserver:http://localhost:8888
 

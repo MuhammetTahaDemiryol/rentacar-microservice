@@ -4,7 +4,6 @@ import com.tahademiryol.invoiceservice.business.abstracts.InvoiceService;
 import com.tahademiryol.invoiceservice.business.dto.responses.get.GetAllInvoicesResponse;
 import com.tahademiryol.invoiceservice.business.dto.responses.get.GetInvoiceResponse;
 import com.tahademiryol.invoiceservice.entities.Invoice;
-import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +17,10 @@ public class InvoicesController {
     private final InvoiceService service;
 
     // Will work only once for creating a mongo db
-    @PostConstruct
-    public void createDb() {
-        service.add(new Invoice());
-    }
+//    @PostConstruct
+//    public void createDb() {
+//        service.add(new Invoice());
+//    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK) // 200

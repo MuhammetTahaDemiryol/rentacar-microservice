@@ -33,9 +33,52 @@ services:
       - "27018:27017"
     volumes:
       - invoicedb_data:/data/db/
+  zipkin:
+    #    restart: always
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
+  prometheus:
+    #    restart: always
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - monitor-net
+
+  grafana:
+    #    restart: always
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - grafana-config:/etc/grafana
+    networks:
+      - monitor-net
 
 
 volumes:
   kafka_data:
   mongodb_data:
   invoicedb_data:
+  grafana-data:
+    driver: local
+  grafana-config:
+    driver: local
+
+
+networks:
+  es-net:
+    driver: bridge
+  monitor-net:
+    driver: bridge

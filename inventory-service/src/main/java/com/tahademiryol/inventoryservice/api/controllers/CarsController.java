@@ -11,7 +11,6 @@ import com.tahademiryol.inventoryservice.business.dto.responses.update.UpdateCar
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,13 +23,21 @@ public class CarsController {
     private final CarService service;
 
     @GetMapping
-    @Secured("ROLE_admin")
+    // Secured, PreAuthorize, and PostAuthorize are all Spring Security annotations.
+    // @Secured("ROLE_admin")
+    //@PreAuthorize("hasRole('user') or hasRole('admin')") //SPel
+    //@PreAuthorize(Roles.AdminAndUser)
     public List<GetAllCarsResponse> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public GetCarResponse getById(@PathVariable UUID id) {
+    //@PostAuthorize("hasRole('admin') || returnObject.getModelYear() == 2019")
+    public GetCarResponse getById(@PathVariable UUID id) { //@AuthenticationPrincipal Jwt jwt)
+//        System.out.println(jwt.getClaims().get("email"));
+//        System.out.println(jwt.getClaims().get("given_name"));
+//        System.out.println(jwt.getClaims().get("family_name"));
+//        System.out.println(jwt.getClaims().get("sub"));
         return service.getById(id);
     }
 
